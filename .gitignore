@@ -1,0 +1,16 @@
+# Build output
+**/bin/
+**/obj/
+.vs/
+.idea/
+
+# Local secrets and developer settings
+**/appsettings.*.local.json
+**/secrets.json
+*.user
+*.suo
+
+# Local logs and diagnostics
+*.log
+TestResults/
+artifacts/

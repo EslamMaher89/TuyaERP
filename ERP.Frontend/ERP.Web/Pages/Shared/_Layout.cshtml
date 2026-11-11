@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - ERP</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" asp-page="/Index">منظومة الشركة</a>
+        <nav><a asp-page="/Legal/Index">الشؤون القانونية</a></nav>
+        <span class="environment">نسخة تأسيسية</span>
+    </header>
+    <main class="page-shell">@RenderBody()</main>
+    <footer>نظام موحد متعدد المصانع · بوابة الإدارة المركزية</footer>
+</body>
+</html>

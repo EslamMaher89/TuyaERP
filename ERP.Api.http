@@ -1,0 +1,12 @@
+@ERP_Api_HostAddress = http://localhost:5080
+
+GET {{ERP_Api_HostAddress}}/health
+Accept: application/json
+
+### Legal module discovery status
+GET {{ERP_Api_HostAddress}}/api/legal/status
+Accept: application/json
+
+### Case list stays unavailable until the Oracle schema is validated
+GET {{ERP_Api_HostAddress}}/api/legal/cases
+Accept: application/json

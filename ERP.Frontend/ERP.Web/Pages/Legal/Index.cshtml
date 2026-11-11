@@ -1,0 +1,21 @@
+@page
+@model ERP.Web.Pages.Legal.IndexModel
+@{
+    ViewData["Title"] = "الشؤون القانونية";
+}
+<div class="page-heading">
+    <div><p class="eyebrow">الموديول الأول</p><h1>الشؤون القانونية</h1><p>نقل تدريجي لوظائف القضايا والجلسات من Oracle Forms.</p></div>
+    <span class="status-pill">قيد تحليل النظام الحالي</span>
+</div>
+<section class="notice" role="status">
+    <h2>ربط البيانات لم يُفعّل بعد</h2>
+    <p>تم العثور على نموذج القضايا <code>NEW_MASTER</code> وكتلة <code>LAWSUIT_MSTER</code> وكتلة الجلسات <code>SESSION_1</code>. نتحقق الآن من تعريفات Oracle الفعلية وقواعد العمل قبل عرض بيانات أو تنفيذ أي تعديل.</p>
+    <p>لن تظهر بيانات تجريبية مكان ملفات القضايا الحقيقية.</p>
+</section>
+<h2 class="section-title">نطاق أولي مكتشف من ملفات Forms</h2>
+<div class="card-grid">
+    <article class="card"><span class="card-label">القضايا</span><strong>ملف الدعوى وتصنيفها</strong><p>رقم الدعوى، الشركة والفرع، السنة، النوع، الخصم، المحكمة، والوصف.</p></article>
+    <article class="card"><span class="card-label">الجلسات</span><strong>الجلسات والإجراء التالي</strong><p>تاريخ الجلسة، رقم الدائرة، ما حدث، سبب التأجيل، والموعد القادم.</p></article>
+    <article class="card"><span class="card-label">وظائف مرتبطة</span><strong>المحامون والمذكرات والتنفيذ</strong><p>تظهر كوظائف مرتبطة في النموذج؛ تفاصيلها تحتاج مراجعة نماذجها وتقاريرها قبل اعتمادها.</p></article>
+</div>
+<p class="source-note">مصدر الاكتشاف الأولي: <code>court/frm/new_master.txt</code>. أسماء الحقول أعلاه هي أسماء Oracle كما ظهرت في المصدر، وترجمتها ومعانيها ما زالت تحتاج تأكيدًا من مستخدمي النظام.</p>

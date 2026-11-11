@@ -1,0 +1,40 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Domain", "src\ERP.Domain\ERP.Domain.csproj", "{C4A30FA5-40F4-4579-92BF-196AA6B5EF01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Application", "src\ERP.Application\ERP.Application.csproj", "{C4A30FA5-40F4-4579-92BF-196AA6B5EF02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Infrastructure", "src\ERP.Infrastructure\ERP.Infrastructure.csproj", "{C4A30FA5-40F4-4579-92BF-196AA6B5EF03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Api", "src\ERP.Api\ERP.Api.csproj", "{C4A30FA5-40F4-4579-92BF-196AA6B5EF04}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4A30FA5-40F4-4579-92BF-196AA6B5EF04}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
