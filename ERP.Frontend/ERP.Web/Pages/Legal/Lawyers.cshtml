@@ -1,0 +1,21 @@
+@page "/Legal/Lawyers"
+@model ERP.Web.Pages.Legal.LawyersModel
+@{
+    ViewData["Title"] = "المحامون";
+}
+<div class="demo-banner"><span class="demo-dot"></span><strong>بيانات تجريبية</strong><span>الأسماء والتوزيع الوظيفي للتوضيح فقط.</span></div>
+<div class="page-heading"><div><p class="eyebrow">الشؤون القانونية / الفريق</p><h1>المحامون</h1><p>دليل تجريبي لتوزيع ملفات القضايا ومتابعة العبء.</p></div><span class="count-chip">@Model.Lawyers.Count محامٍ</span></div>
+<section class="panel filter-panel"><form method="get" class="filter-form"><label class="search-field"><span class="search-icon" aria-hidden="true">⌕</span><span class="visually-hidden">بحث</span><input type="search" name="q" value="@Model.Query" placeholder="ابحث بالاسم أو التخصص أو المدينة" /></label><button class="primary-button compact-button" type="submit">بحث</button></form></section>
+<section class="lawyer-grid">
+@if (Model.Lawyers.Count == 0)
+{
+    <div class="panel empty-state"><strong>لا توجد نتائج مطابقة</strong><span>جرّب كلمة بحث أخرى.</span></div>
+}
+else
+{
+    @foreach (var lawyer in Model.Lawyers)
+    {
+        <article class="panel lawyer-card"><div class="lawyer-card-top"><div class="lawyer-avatar">@lawyer.Name[..1]</div><span class="case-status status-green">@lawyer.Status</span></div><h2>@lawyer.Name</h2><p class="lawyer-role">@lawyer.Specialty</p><div class="lawyer-location"><span class="location-dot" aria-hidden="true"></span>@lawyer.City</div><div class="lawyer-stats"><div><strong>@lawyer.OpenCases</strong><span>قضايا نشطة</span></div><div><strong>@lawyer.UpcomingSessions</strong><span>جلسات قادمة</span></div></div><a class="panel-bottom-link" asp-page="/Legal/Cases/Index" asp-route-q="@lawyer.Name">عرض القضايا المسندة <span aria-hidden="true">←</span></a></article>
+    }
+}
+</section>

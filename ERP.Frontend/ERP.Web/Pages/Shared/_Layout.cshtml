@@ -1,3 +1,6 @@
+@{
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString() ?? string.Empty;
+}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -5,14 +8,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - ERP</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/legal.css" asp-append-version="true" />
 </head>
 <body>
     <header class="topbar">
-        <a class="brand" asp-page="/Index">منظومة الشركة</a>
-        <nav><a asp-page="/Legal/Index">الشؤون القانونية</a></nav>
-        <span class="environment">نسخة تأسيسية</span>
+        <a class="brand" asp-page="/Index"><span class="brand-mark">T</span><span>Tuya<span class="brand-light">ERP</span></span></a>
+        <div class="topbar-context"><span class="context-label">مساحة العمل</span><strong>كل المصانع</strong><span class="chevron">⌄</span></div>
+        <div class="topbar-spacer"></div>
+        <span class="environment"><span class="environment-dot"></span>نسخة عرض</span>
+        <div class="user-menu"><span class="user-avatar">م</span><span class="user-name">مدير قانوني<small>الإدارة المركزية</small></span><span class="chevron">⌄</span></div>
     </header>
-    <main class="page-shell">@RenderBody()</main>
-    <footer>نظام موحد متعدد المصانع · بوابة الإدارة المركزية</footer>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-module"><span class="sidebar-module-mark">§</span><span><strong>الشؤون القانونية</strong><small>LEGAL AFFAIRS</small></span></div>
+            <div class="sidebar-caption">مساحة العمل</div>
+            <nav class="sidebar-nav" aria-label="قائمة الشؤون القانونية">
+                <a class="nav-link @(currentPage == "/Legal/Index" ? "active" : "")" asp-page="/Legal/Index"><span class="nav-icon">⌂</span><span>نظرة عامة</span></a>
+                <a class="nav-link @(currentPage.StartsWith("/Legal/Cases") ? "active" : "")" asp-page="/Legal/Cases/Index"><span class="nav-icon">§</span><span>القضايا</span><span class="nav-count">5</span></a>
+                <a class="nav-link @(currentPage == "/Legal/Sessions" ? "active" : "")" asp-page="/Legal/Sessions"><span class="nav-icon">▦</span><span>الجلسات</span></a>
+                <a class="nav-link @(currentPage == "/Legal/Lawyers" ? "active" : "")" asp-page="/Legal/Lawyers"><span class="nav-icon">◉</span><span>المحامون</span></a>
+                <a class="nav-link @(currentPage == "/Legal/Documents" ? "active" : "")" asp-page="/Legal/Documents"><span class="nav-icon">▤</span><span>المستندات</span></a>
+            </nav>
+            <div class="sidebar-bottom"><div class="sidebar-help-icon">?</div><div><strong>مركز المساعدة</strong><small>إرشادات استخدام النسخة</small></div><span class="row-arrow">←</span></div>
+            <div class="sidebar-footnote">بوابة الإدارة المركزية <span>·</span> 2026</div>
+        </aside>
+        <div class="main-column">
+            <main class="page-shell">@RenderBody()</main>
+            <footer>منظومة إدارة موحدة <span>·</span> الشؤون القانونية <span class="footer-demo">واجهة تجريبية</span></footer>
+        </div>
+    </div>
 </body>
 </html>

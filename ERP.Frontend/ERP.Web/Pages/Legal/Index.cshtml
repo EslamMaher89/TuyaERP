@@ -1,21 +1,41 @@
 @page
 @model ERP.Web.Pages.Legal.IndexModel
 @{
-    ViewData["Title"] = "الشؤون القانونية";
+    ViewData["Title"] = "مركز الشؤون القانونية";
 }
-<div class="page-heading">
-    <div><p class="eyebrow">الموديول الأول</p><h1>الشؤون القانونية</h1><p>نقل تدريجي لوظائف القضايا والجلسات من Oracle Forms.</p></div>
-    <span class="status-pill">قيد تحليل النظام الحالي</span>
-</div>
-<section class="notice" role="status">
-    <h2>ربط البيانات لم يُفعّل بعد</h2>
-    <p>تم العثور على نموذج القضايا <code>NEW_MASTER</code> وكتلة <code>LAWSUIT_MSTER</code> وكتلة الجلسات <code>SESSION_1</code>. نتحقق الآن من تعريفات Oracle الفعلية وقواعد العمل قبل عرض بيانات أو تنفيذ أي تعديل.</p>
-    <p>لن تظهر بيانات تجريبية مكان ملفات القضايا الحقيقية.</p>
+<div class="demo-banner"><span class="demo-dot"></span><strong>وضع العرض</strong><span>كل الأسماء والأرقام المعروضة بيانات تجريبية، وليست بيانات Oracle.</span></div>
+<section class="welcome-panel">
+    <div>
+        <p class="eyebrow">الإدارة القانونية <span class="eyebrow-line"></span> لوحة المتابعة</p>
+        <h1>مركز العمل القانوني</h1>
+        <p>نظرة سريعة على ملفات القضايا والجلسات القادمة.</p>
+        <a class="primary-button" asp-page="/Legal/Cases/Index">استعراض القضايا <span aria-hidden="true">←</span></a>
+    </div>
+    <div class="welcome-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-shield">§</div><span class="art-star star-one">✦</span><span class="art-star star-two">✧</span></div>
 </section>
-<h2 class="section-title">نطاق أولي مكتشف من ملفات Forms</h2>
-<div class="card-grid">
-    <article class="card"><span class="card-label">القضايا</span><strong>ملف الدعوى وتصنيفها</strong><p>رقم الدعوى، الشركة والفرع، السنة، النوع، الخصم، المحكمة، والوصف.</p></article>
-    <article class="card"><span class="card-label">الجلسات</span><strong>الجلسات والإجراء التالي</strong><p>تاريخ الجلسة، رقم الدائرة، ما حدث، سبب التأجيل، والموعد القادم.</p></article>
-    <article class="card"><span class="card-label">وظائف مرتبطة</span><strong>المحامون والمذكرات والتنفيذ</strong><p>تظهر كوظائف مرتبطة في النموذج؛ تفاصيلها تحتاج مراجعة نماذجها وتقاريرها قبل اعتمادها.</p></article>
+<section class="metrics-grid" aria-label="ملخص القضايا">
+    <article class="metric-card"><div class="metric-top"><span>القضايا النشطة</span><span class="metric-icon blue-icon">ق</span></div><strong>@Model.ActiveCases</strong><small><span class="metric-caption">ضمن نطاق العرض التجريبي</span></small></article>
+    <article class="metric-card"><div class="metric-top"><span>جلسات هذا الأسبوع</span><span class="metric-icon violet-icon">ج</span></div><strong>@Model.UpcomingThisWeek</strong><small><span class="metric-caption">مواعيد مسجلة في العينة</span></small></article>
+    <article class="metric-card"><div class="metric-top"><span>تحتاج متابعة</span><span class="metric-icon amber-icon">!</span></div><strong>@Model.NeedsFollowUp</strong><small><span class="metric-caption">ملفات للمتابعة</span></small></article>
+    <article class="metric-card"><div class="metric-top"><span>المحامون</span><span class="metric-icon teal-icon">م</span></div><strong>@Model.LawyerCount</strong><small><span class="metric-caption">داخل بيانات العرض</span></small></article>
+</section>
+<div class="dashboard-columns">
+    <section class="panel upcoming-panel"><div class="panel-heading"><div><h2>الجلسات القادمة</h2><p>أقرب المواعيد المسجلة</p></div><a class="text-link" asp-page="/Legal/Sessions">كل الجلسات <span aria-hidden="true">←</span></a></div><div class="session-list">
+    @foreach (var session in Model.UpcomingSessions)
+    {
+        <a class="session-row" asp-page="/Legal/Cases/Details" asp-route-id="@session.CaseId"><div class="date-tile"><span>@session.SessionOn.ToString("dd")</span><small>@session.SessionOn.ToString("MMM", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</small></div><div class="session-main"><strong>@session.CaseNumber</strong><span>@session.CourtName · @session.CircleName</span></div><div class="session-side"><span>@session.SessionOn.ToString("dddd", System.Globalization.CultureInfo.GetCultureInfo("ar-EG"))</span><small>@session.SessionOn.ToString("hh:mm tt", System.Globalization.CultureInfo.GetCultureInfo("ar-EG"))</small></div><span class="row-arrow" aria-hidden="true">←</span></a>
+    }
+    </div></section>
+    <section class="panel attention-panel"><div class="panel-heading"><div><h2>مهام المتابعة</h2><p>حالات توضيحية داخل بيانات العرض</p></div><span class="attention-count">@Model.NeedsFollowUp</span></div>
+    @foreach (var legalCase in Model.FollowUpCases)
+    {
+        <a class="followup-row" asp-page="/Legal/Cases/Details" asp-route-id="@legalCase.Id"><span class="followup-mark"></span><span><strong>@legalCase.CaseNumber</strong><small>@legalCase.Subject</small></span><span class="row-arrow" aria-hidden="true">←</span></a>
+    }
+    <a class="panel-bottom-link" asp-page="/Legal/Cases/Index">فتح قائمة القضايا <span aria-hidden="true">←</span></a></section>
 </div>
-<p class="source-note">مصدر الاكتشاف الأولي: <code>court/frm/new_master.txt</code>. أسماء الحقول أعلاه هي أسماء Oracle كما ظهرت في المصدر، وترجمتها ومعانيها ما زالت تحتاج تأكيدًا من مستخدمي النظام.</p>
+<section class="panel recent-panel"><div class="panel-heading"><div><h2>القضايا المسجلة</h2><p>عينة توضيحية للتنقل واستعراض تفاصيل الملف</p></div><a class="text-link" asp-page="/Legal/Cases/Index">عرض الكل <span aria-hidden="true">←</span></a></div><div class="table-wrap"><table class="data-table"><thead><tr><th>رقم القضية</th><th>الموضوع</th><th>المحكمة</th><th>المحامي</th><th>الحالة</th><th></th></tr></thead><tbody>
+@foreach (var legalCase in Model.RecentCases)
+{
+    <tr><td><a class="case-number" asp-page="/Legal/Cases/Details" asp-route-id="@legalCase.Id">@legalCase.CaseNumber</a><small>@legalCase.CompanyName · @legalCase.BranchName</small></td><td>@legalCase.Subject</td><td>@legalCase.CourtName</td><td>@legalCase.LawyerName</td><td><span class="case-status @legalCase.StatusClass">@legalCase.Status</span></td><td><a class="icon-link" asp-page="/Legal/Cases/Details" asp-route-id="@legalCase.Id" aria-label="فتح القضية @legalCase.CaseNumber">←</a></td></tr>
+}
+</tbody></table></div></section>

@@ -4,9 +4,9 @@
 
 - `court/frm/new_master.txt` is a text export of Oracle Forms module `NEW_MASTER`.
 - Its first navigation block and query data source are both named `LAWSUIT_MSTER`.
-- The master block exposes case identifiers and organization fields such as `QUIDA_NO`, `MSLSL`, `YEAR`, `COMPANY_NO`, and `BRANCH_NO`, plus type, opponent, description, court, and next-session fields.
+- The master block exposes a three-column case relation key: `QUIDA_NO`, `MSLSL`, and `KIND_QUID`. It also carries `YEAR`, `DATA_DEAA`, `COMPANY_NO`, `BRANCH_NO`, `LSANA`, `KIND_MIULTY`, `KIND_KHSM`, `DESC_LAWSUIT`, `NOA`, `KIND_COURT`, `SUB_KIND`, `MAIN_KIND`, `KHASM_NAME`, `DATE_SESSION`, `CODE_DIS`, `MSLSL_COURT`, and `KIND_QUIDA`. These source names are preserved in the backend domain mapping; human labels for less clear fields need business confirmation.
 - The form contains related blocks named `LAWSUIT_MSTER_LAWER_LAWSUIT`, `LAWSUIT_MSTER_DISCORD`, `LAWSUIT_MSTER_COMMAND`, `LAWSUIT_MSTER_EXECUITION`, and `LAWSUIT_MSTER_SESSION_1`.
-- The related session block uses `SESSION_1`; visible columns include `DATE_SESSION`, `QUIDA_NO`, `DATE_NEXT`, `MSLSL_SEESION`, `KIND_COURT`, `CIRCLE_NO`, `HAPPEN`, and `COD_RESON`.
+- The related session block uses `SESSION_1`; visible columns include `DATE_SESSION`, the same case key, `DATE_NEXT`, `MSLSL_SEESION`, `KIND_COURT`, `CIRCLE_NO`, `HAPPEN`, `COD_RESON`, `CODE_SHIFT`, and `MOIZ`. The form's block query has `MOIZ=2`; the trigger that sets the current next-session row uses `MOIZ=1`. Keep these paths distinct pending confirmation of the code's business meaning.
 - A button trigger deletes and reinserts a `SESSION_1` row when updating the next hearing (`MOIZ=1`). This is a business rule that needs confirmation before porting.
 - Related Forms/Reports files include `QADIA_LAWYRS`, `QADIA_EXECUTION`, `QADIA_DISCORD`, `QADIA_COMMAND`, `SESSIONS`, lawyer forms, and legal reports. Their exact workflows still need source-level inspection.
 

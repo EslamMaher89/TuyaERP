@@ -1,22 +1,31 @@
 namespace ERP.Domain.Legal;
 
 /// <summary>
-/// Legal case record based on the legacy LAWSUIT_MSTER Forms block.
-/// Field mapping is provisional until verified against the live Oracle schema.
+/// Source-mapped fields from the Oracle Forms LAWSUIT_MSTER data block.
+/// Business labels and constraints remain provisional until checked against Oracle metadata.
 /// </summary>
 public sealed record LegalCase
 {
-    public required string CaseNumber { get; init; }
-    public required string CompanyNumber { get; init; }
-    public required string BranchNumber { get; init; }
-    public int? SerialNumber { get; init; }
-    public int? CaseYear { get; init; }
-    public DateOnly? FiledOn { get; init; }
-    public string? CaseTypeCode { get; init; }
-    public string? OpponentTypeCode { get; init; }
-    public string? CaseSubject { get; init; }
-    public string? Description { get; init; }
-    public string? CourtCode { get; init; }
-    public string? CourtSerialNumber { get; init; }
-    public DateOnly? NextSessionOn { get; init; }
+    // Oracle composite relation key: QUIDA_NO + MSLSL + KIND_QUID.
+    public required decimal QadiaNumber { get; init; } // QUIDA_NO
+    public required decimal SerialNumber { get; init; } // MSLSL
+    public required decimal KindQuidCode { get; init; } // KIND_QUID
+
+    public required decimal CaseYear { get; init; } // YEAR
+    public required DateTime FiledAt { get; init; } // DATA_DEAA (Oracle DATE)
+    public required decimal BranchNumber { get; init; } // BRANCH_NO
+    public required decimal CompanyNumber { get; init; } // COMPANY_NO
+    public required string LawsuitName { get; init; } // LSANA
+    public required decimal MultiPartyTypeCode { get; init; } // KIND_MIULTY
+    public required decimal OpponentTypeCode { get; init; } // KIND_KHSM
+    public string? Description { get; init; } // DESC_LAWSUIT
+    public decimal? Noa { get; init; } // NOA
+    public required decimal CourtTypeCode { get; init; } // KIND_COURT
+    public required decimal SubKindCode { get; init; } // SUB_KIND
+    public required decimal MainKindCode { get; init; } // MAIN_KIND
+    public string? OpponentName { get; init; } // KHASM_NAME
+    public DateTime? NextSessionOn { get; init; } // DATE_SESSION
+    public decimal? CodeDis { get; init; } // CODE_DIS
+    public decimal? CourtSerialNumber { get; init; } // MSLSL_COURT
+    public decimal? KindQuidaCode { get; init; } // KIND_QUIDA
 }

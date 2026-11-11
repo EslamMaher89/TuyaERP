@@ -1,0 +1,92 @@
+@page "/Legal/Cases/{id}"
+@model ERP.Web.Pages.Legal.Cases.DetailsModel
+@{
+    ViewData["Title"] = "ملف القضية";
+}
+<div class="demo-banner"><span class="demo-dot"></span><strong>بيانات تجريبية</strong><span>تفاصيل توضيحية — لا تمثل ملفًا حقيقيًا.</span></div>
+<a class="back-link" asp-page="/Legal/Cases/Index"><span aria-hidden="true">→</span> العودة إلى القضايا</a>
+<section class="case-hero panel">
+    <div class="case-hero-main">
+        <div class="case-title-line">
+            <span class="case-id-tag">@Model.Case.CaseNumber</span>
+            <span class="case-status @Model.Case.StatusClass">@Model.Case.Status</span>
+        </div>
+        <h1>@Model.Case.Subject</h1>
+        <p>@Model.Case.Description</p>
+        <div class="case-meta">
+            <span>@Model.Case.CompanyName</span><span class="meta-separator">·</span>
+            <span>@Model.Case.BranchName</span><span class="meta-separator">·</span>
+            <span>@Model.Case.CaseType</span>
+        </div>
+    </div>
+    <div class="case-next-action">
+        <span>إجراء متابعة توضيحي</span>
+        <strong>@Model.Case.NextAction</strong>
+        <small>موعد الجلسة القادمة @(Model.Sessions.FirstOrDefault(item => item.SessionOn >= LegalDemoData.TodayStart)?.SessionOn.ToString("dd MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US")) ?? "غير محدد")</small>
+    </div>
+</section>
+<div class="case-detail-grid">
+    <div class="case-main-column">
+        <section class="panel detail-panel">
+            <div class="panel-heading"><div><h2>بيانات القضية</h2><p>المعلومات الظاهرة هنا للعرض التوضيحي.</p></div></div>
+            <div class="detail-grid">
+                <div class="detail-item"><span>مرجع العرض</span><strong>@Model.Case.CaseNumber</strong></div>
+                <div class="detail-item"><span>نوع القضية</span><strong>@Model.Case.CaseType</strong></div>
+                <div class="detail-item"><span>الشركة</span><strong>@Model.Case.CompanyName</strong></div>
+                <div class="detail-item"><span>الفرع</span><strong>@Model.Case.BranchName</strong></div>
+                <div class="detail-item"><span>المحكمة</span><strong>@Model.Case.CourtName</strong></div>
+                <div class="detail-item"><span>الدائرة</span><strong>@Model.Case.CircleName</strong></div>
+                <div class="detail-item"><span>الخصم</span><strong>@Model.Case.Opponent</strong></div>
+                <div class="detail-item"><span>تاريخ فتح العينة</span><strong>@Model.Case.OpenedOn.ToString("dd MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</strong></div>
+            </div>
+        </section>
+        <section class="panel detail-panel">
+            <div class="panel-heading"><div><h2>الجلسات</h2><p>سجل توضيحي للمواعيد ومحاضر الجلسات.</p></div><a class="text-link" asp-page="/Legal/Sessions">كل الجلسات <span aria-hidden="true">←</span></a></div>
+            <div class="timeline-list">
+    @foreach (var session in Model.Sessions)
+    {
+                <div class="timeline-row">
+                    <div class="timeline-marker @(session.Status == "قائمة" ? "timeline-upcoming" : "")"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">
+                            <strong>@session.SessionOn.ToString("dd MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</strong>
+                            <span>@session.SessionOn.ToString("hh:mm tt", System.Globalization.CultureInfo.GetCultureInfo("ar-EG"))</span>
+                            <span class="case-status @(session.Status == "قائمة" ? "status-blue" : "status-neutral")">@session.Status</span>
+                        </div>
+                        <p>@session.Agenda</p>
+                        <small>@session.CourtName · @session.CircleName</small>
+                    </div>
+                </div>
+    }
+            </div>
+        </section>
+        <section class="panel detail-panel">
+            <div class="panel-heading"><div><h2>المستندات</h2><p>مرفقات افتراضية لتجربة العرض.</p></div><a class="text-link" asp-page="/Legal/Documents">فتح الأرشيف <span aria-hidden="true">←</span></a></div>
+            <div class="document-list">
+    @foreach (var document in Model.Documents)
+    {
+                <div class="document-row">
+                    <span class="file-icon">@document.FileType</span>
+                    <span class="document-info"><strong>@document.Name</strong><small>@document.Category · أضيف في @document.AddedOn.ToString("dd MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</small></span>
+                    <span class="document-size">عرض تجريبي</span>
+                </div>
+    }
+            </div>
+        </section>
+    </div>
+    <aside class="case-side-column">
+        <section class="panel side-card">
+            <span class="side-label">المحامي الظاهر في بيانات العرض</span>
+            <div class="lawyer-avatar">@Model.Case.LawyerName[..1]</div>
+            <strong class="lawyer-name">@Model.Case.LawyerName</strong>
+            <span class="lawyer-role">اسم تجريبي</span>
+            <a class="panel-bottom-link" asp-page="/Legal/Lawyers">دليل المحامين <span aria-hidden="true">←</span></a>
+        </section>
+        <section class="panel side-card">
+            <span class="side-label">مفتاح القضية (تجريبي)</span>
+            <strong class="legacy-number">@Model.Case.SampleOracleKey</strong>
+            <p class="muted-copy">الأعمدة الفعلية الظاهرة في الفورم: QUIDA_NO وMSLSL وKIND_QUID. القيم هنا غير حقيقية.</p>
+        </section>
+        <section class="side-note"><strong>حدود النسخة الحالية</strong><p>لا يوجد حفظ أو تعديل أو رفع ملفات، ولا اتصال بقاعدة Oracle.</p></section>
+    </aside>
+</div>

@@ -1,0 +1,22 @@
+@page "/Legal/Documents"
+@model ERP.Web.Pages.Legal.DocumentsModel
+@{
+    ViewData["Title"] = "المستندات";
+}
+<div class="demo-banner"><span class="demo-dot"></span><strong>بيانات تجريبية</strong><span>لا توجد ملفات حقيقية مرفوعة؛ هذه أسماء للعرض البصري فقط.</span></div>
+<div class="page-heading"><div><p class="eyebrow">الشؤون القانونية / الأرشيف</p><h1>المستندات</h1><p>أرشيف توضيحي للمرفقات المرتبطة بملفات القضايا.</p></div><span class="count-chip">@Model.Documents.Count مستند</span></div>
+<section class="panel filter-panel"><form method="get" class="filter-form"><label class="search-field"><span class="search-icon" aria-hidden="true">⌕</span><span class="visually-hidden">بحث</span><input type="search" name="q" value="@Model.Query" placeholder="اسم المستند أو رقم القضية أو المحامي" /></label><label class="select-field"><span>نوع المستند</span><select name="category">@foreach (var category in Model.Categories){<option value="@category" selected="@(Model.CategoryFilter == category)">@category</option>}</select></label><button class="primary-button compact-button" type="submit">تطبيق البحث</button></form></section>
+<section class="panel table-panel"><div class="panel-heading"><div><h2>أرشيف المستندات</h2><p>الملفات المعروضة لا تفتح تنزيلات حقيقية.</p></div><span class="table-total">@Model.Documents.Count مستند</span></div><div class="table-wrap"><table class="data-table"><thead><tr><th>المستند</th><th>التصنيف</th><th>القضية المرتبطة</th><th>تاريخ الإضافة</th><th>أضيف بواسطة</th><th></th></tr></thead><tbody>
+@if (Model.Documents.Count == 0)
+{
+    <tr><td colspan="6"><div class="empty-state"><strong>لا توجد مستندات مطابقة</strong><span>جرّب تغيير التصنيف أو البحث.</span></div></td></tr>
+}
+else
+{
+    @foreach (var document in Model.Documents)
+    {
+        var caseRecord = LegalDemoData.FindCase(document.CaseId);
+        <tr><td><div class="document-cell"><span class="file-icon">@document.FileType</span><strong class="table-primary-text">@document.Name</strong></div></td><td><span class="category-chip">@document.Category</span></td><td><a class="case-number" asp-page="/Legal/Cases/Details" asp-route-id="@document.CaseId">@(caseRecord?.CaseNumber ?? document.CaseId)</a></td><td>@document.AddedOn.ToString("dd MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</td><td>@document.AddedBy</td><td><span class="document-size">تجريبي</span></td></tr>
+    }
+}
+</tbody></table></div></section>

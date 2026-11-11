@@ -1,0 +1,27 @@
+@page "/Legal/Cases"
+@model ERP.Web.Pages.Legal.Cases.IndexModel
+@{
+    ViewData["Title"] = "القضايا";
+}
+<div class="demo-banner"><span class="demo-dot"></span><strong>بيانات تجريبية</strong><span>للعرض فقط — غير متصلة بقاعدة Oracle.</span></div>
+<div class="page-heading"><div><p class="eyebrow">الشؤون القانونية / ملفات العمل</p><h1>القضايا</h1><p>ابحث في ملفات القضايا التجريبية وراجع تفاصيلها وجلساتها.</p></div><span class="count-chip">@Model.Cases.Count قضية معروضة</span></div>
+<section class="panel filter-panel"><form method="get" class="filter-form">
+    <label class="search-field"><span class="search-icon" aria-hidden="true">⌕</span><span class="visually-hidden">بحث</span><input type="search" name="q" value="@Model.Query" placeholder="مرجع القضية، الموضوع، الفرع أو الخصم" /></label>
+    <label class="select-field"><span>الحالة</span><select name="status">@foreach (var status in Model.StatusOptions){<option value="@status" selected="@(Model.StatusFilter == status)">@status</option>}</select></label>
+    <button class="primary-button compact-button" type="submit">تطبيق البحث</button>
+    @if (!string.IsNullOrWhiteSpace(Model.Query) || Model.StatusFilter != "الكل") { <a class="reset-link" asp-page="/Legal/Cases/Index">مسح الفلاتر</a> }
+</form></section>
+<section class="panel table-panel"><div class="panel-heading"><div><h2>سجل القضايا</h2><p>الحقول مرتبة لتسهيل فرز ملفات العمل القانونية.</p></div><span class="table-total">@Model.Cases.Count من @LegalDemoData.Cases.Count</span></div>
+<div class="table-wrap"><table class="data-table cases-table"><thead><tr><th>مرجع العرض</th><th>الموضوع والخصم</th><th>الفرع</th><th>المحكمة</th><th>المحامي</th><th>الحالة</th><th></th></tr></thead><tbody>
+@if (Model.Cases.Count == 0)
+{
+    <tr><td colspan="7"><div class="empty-state"><strong>لا توجد نتائج مطابقة</strong><span>جرّب كلمة بحث أخرى أو امسح الفلاتر.</span></div></td></tr>
+}
+else
+{
+    @foreach (var legalCase in Model.Cases)
+    {
+        <tr><td><a class="case-number" asp-page="/Legal/Cases/Details" asp-route-id="@legalCase.Id">@legalCase.CaseNumber</a><small>فتح الملف @legalCase.OpenedOn.ToString("dd MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</small></td><td><strong class="table-primary-text">@legalCase.Subject</strong><small>الخصم: @legalCase.Opponent</small></td><td>@legalCase.BranchName</td><td>@legalCase.CourtName</td><td>@legalCase.LawyerName</td><td><span class="case-status @legalCase.StatusClass">@legalCase.Status</span></td><td><a class="icon-link" asp-page="/Legal/Cases/Details" asp-route-id="@legalCase.Id" aria-label="فتح تفاصيل القضية">←</a></td></tr>
+    }
+}
+</tbody></table></div></section>

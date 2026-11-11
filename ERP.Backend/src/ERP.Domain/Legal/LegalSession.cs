@@ -1,14 +1,18 @@
 namespace ERP.Domain.Legal;
 
-/// <summary>Hearing data corresponding to the legacy SESSION_1 block.</summary>
+/// <summary>Source-mapped hearing fields from the Oracle Forms SESSION_1 block.</summary>
 public sealed record LegalSession
 {
-    public required string CaseNumber { get; init; }
-    public required DateOnly SessionOn { get; init; }
-    public int? SerialNumber { get; init; }
-    public DateOnly? NextSessionOn { get; init; }
-    public string? CourtCode { get; init; }
-    public string? CircleNumber { get; init; }
-    public string? Outcome { get; init; }
-    public string? AdjournmentReasonCode { get; init; }
+    public required decimal QadiaNumber { get; init; } // QUIDA_NO
+    public required decimal SerialNumber { get; init; } // MSLSL
+    public required decimal KindQuidCode { get; init; } // KIND_QUID
+    public required DateTime SessionOn { get; init; } // DATE_SESSION
+    public DateTime? NextSessionOn { get; init; } // DATE_NEXT
+    public required decimal SessionSerialNumber { get; init; } // MSLSL_SEESION
+    public decimal? CourtTypeCode { get; init; } // KIND_COURT
+    public decimal? CircleNumber { get; init; } // CIRCLE_NO
+    public string? HearingRecord { get; init; } // HAPPEN (Oracle LONG)
+    public decimal? ReasonCode { get; init; } // COD_RESON
+    public decimal? ShiftCode { get; init; } // CODE_SHIFT
+    public required decimal IsCurrentOrHistorical { get; init; } // MOIZ; semantics require confirmation
 }

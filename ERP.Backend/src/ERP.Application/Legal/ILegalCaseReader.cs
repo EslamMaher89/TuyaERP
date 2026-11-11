@@ -6,14 +6,16 @@ namespace ERP.Application.Legal;
 public interface ILegalCaseReader
 {
     Task<IReadOnlyList<LegalCase>> SearchAsync(
-        string companyNumber,
-        string branchNumber,
+        decimal companyNumber,
+        decimal branchNumber,
         string? query,
         CancellationToken cancellationToken);
 
     Task<LegalCase?> FindAsync(
-        string companyNumber,
-        string branchNumber,
-        string caseNumber,
+        decimal companyNumber,
+        decimal branchNumber,
+        decimal qadiaNumber,
+        decimal serialNumber,
+        decimal kindQuidCode,
         CancellationToken cancellationToken);
 }

@@ -1,0 +1,21 @@
+@page "/Legal/Sessions"
+@model ERP.Web.Pages.Legal.SessionsModel
+@{
+    ViewData["Title"] = "الجلسات";
+}
+<div class="demo-banner"><span class="demo-dot"></span><strong>بيانات تجريبية</strong><span>المواعيد المعروضة للتجربة فقط وليست من جدول الجلسات.</span></div>
+<div class="page-heading"><div><p class="eyebrow">الشؤون القانونية / التقويم</p><h1>الجلسات</h1><p>راجع مواعيد الجلسات والمحاكم والمحامين المسؤولين.</p></div><span class="count-chip">@Model.Sessions.Count موعد</span></div>
+<section class="panel filter-panel"><form method="get" class="filter-form"><label class="search-field"><span class="search-icon" aria-hidden="true">⌕</span><span class="visually-hidden">بحث</span><input type="search" name="q" value="@Model.Query" placeholder="ابحث برقم القضية أو المحكمة أو المحامي" /></label><label class="select-field"><span>الفترة</span><select name="range"><option value="upcoming" selected="@(Model.DayFilter == "القادمة")">القادمة</option><option value="all" selected="@(Model.DayFilter == "الكل")">كل المواعيد</option></select></label><button class="primary-button compact-button" type="submit">تطبيق البحث</button></form></section>
+<section class="panel table-panel"><div class="panel-heading"><div><h2>جدول الجلسات</h2><p>المواعيد مرتبة حسب التاريخ.</p></div><span class="table-total">@Model.Sessions.Count موعد</span></div><div class="table-wrap"><table class="data-table"><thead><tr><th>الموعد</th><th>القضية</th><th>المحكمة والدائرة</th><th>الموضوع</th><th>المحامي</th><th>الحالة</th><th></th></tr></thead><tbody>
+@if (Model.Sessions.Count == 0)
+{
+    <tr><td colspan="7"><div class="empty-state"><strong>لا توجد جلسات مطابقة</strong><span>جرّب البحث في كل المواعيد.</span></div></td></tr>
+}
+else
+{
+    @foreach (var session in Model.Sessions)
+    {
+        <tr><td><strong class="table-primary-text">@session.SessionOn.ToString("dd MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</strong><small>@session.SessionOn.ToString("hh:mm tt", System.Globalization.CultureInfo.GetCultureInfo("ar-EG"))</small></td><td><a class="case-number" asp-page="/Legal/Cases/Details" asp-route-id="@session.CaseId">@session.CaseNumber</a></td><td><strong class="table-primary-text">@session.CourtName</strong><small>@session.CircleName</small></td><td>@session.Agenda</td><td>@session.LawyerName</td><td><span class="case-status @(session.Status == "قائمة" ? "status-blue" : "status-neutral")">@session.Status</span></td><td><a class="icon-link" asp-page="/Legal/Cases/Details" asp-route-id="@session.CaseId" aria-label="فتح ملف القضية">←</a></td></tr>
+    }
+}
+</tbody></table></div></section>
