@@ -1,0 +1,22 @@
+@page "/Legal/Execution"
+@model ERP.Web.Pages.Legal.ExecutionModel
+@{
+    ViewData["Title"] = "التنفيذ";
+}
+<div class="demo-banner"><span class="demo-dot"></span><strong>بيانات تجريبية</strong><span>تعرض الشاشة كتلة EXECUITION؛ لا توجد إجراءات تنفيذ أو تحديث بيانات.</span></div>
+<div class="page-heading"><div><p class="eyebrow">الشؤون القانونية / ملفات القضايا</p><h1>إجراءات التنفيذ</h1><p>سجل توضيحي لإجراءات التنفيذ المرتبطة بالقضايا.</p>@if (!string.IsNullOrWhiteSpace(Model.CaseId)){<a class="case-number" asp-page="/Legal/Cases/Details" asp-route-id="@Model.CaseId">عرض القضية المرتبطة ←</a>}</div><span class="count-chip">@Model.Executions.Count إجراء</span></div>
+<section class="panel filter-panel"><form method="get" class="filter-form">@if (!string.IsNullOrWhiteSpace(Model.CaseId)){<input type="hidden" name="caseId" value="@Model.CaseId" />}<label class="search-field"><span class="search-icon" aria-hidden="true">⌕</span><span class="visually-hidden">بحث</span><input type="search" name="q" value="@Model.Query" placeholder="ابحث بوصف الإجراء أو رقم القضية" /></label><button class="primary-button compact-button" type="submit">بحث</button></form></section>
+<section class="panel table-panel"><div class="panel-heading"><div><h2>سجل إجراءات التنفيذ</h2><p>مطابقة حقول المصدر DATE_EXECUTION وTEXT_EXECTION.</p></div><span class="table-total">@Model.Executions.Count إجراء</span></div><div class="table-wrap"><table class="data-table"><thead><tr><th>تاريخ الإجراء</th><th>وصف الإجراء</th><th>القضية</th><th>الحالة التوضيحية</th></tr></thead><tbody>
+@if (Model.Executions.Count == 0)
+{
+    <tr><td colspan="4"><div class="empty-state"><strong>لا توجد إجراءات مطابقة</strong><span>جرّب البحث برقم القضية أو كلمة أخرى.</span></div></td></tr>
+}
+else
+{
+    @foreach (var execution in Model.Executions)
+    {
+        var caseRecord = LegalDemoData.FindCase(execution.CaseId);
+        <tr><td>@execution.RecordedOn.ToString("dd MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</td><td><strong class="table-primary-text">@execution.Description</strong><small>وصف تجريبي — TEXT_EXECTION</small></td><td><a class="case-number" asp-page="/Legal/Cases/Details" asp-route-id="@execution.CaseId">@(caseRecord?.CaseNumber ?? execution.CaseId)</a></td><td><span class="case-status status-green">@execution.Status</span></td></tr>
+    }
+}
+</tbody></table></div></section>

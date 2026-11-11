@@ -1,0 +1,22 @@
+@page "/Legal/CourtOrders"
+@model ERP.Web.Pages.Legal.CourtOrdersModel
+@{
+    ViewData["Title"] = "الأوامر";
+}
+<div class="demo-banner"><span class="demo-dot"></span><strong>بيانات تجريبية</strong><span>تعرض الشاشة كتلة COMMAND وحقولها؛ طبيعة الأمر القضائي تحتاج تأكيدًا من المستخدمين.</span></div>
+<div class="page-heading"><div><p class="eyebrow">الشؤون القانونية / ملفات القضايا</p><h1>الأوامر والقرارات</h1><p>سجل الأوامر المرتبطة بالقضية وتواريخها وملاحظاتها.</p>@if (!string.IsNullOrWhiteSpace(Model.CaseId)){<a class="case-number" asp-page="/Legal/Cases/Details" asp-route-id="@Model.CaseId">عرض القضية المرتبطة ←</a>}</div><span class="count-chip">@Model.Orders.Count سجل</span></div>
+<section class="panel filter-panel"><form method="get" class="filter-form">@if (!string.IsNullOrWhiteSpace(Model.CaseId)){<input type="hidden" name="caseId" value="@Model.CaseId" />}<label class="search-field"><span class="search-icon" aria-hidden="true">⌕</span><span class="visually-hidden">بحث</span><input type="search" name="q" value="@Model.Query" placeholder="ابحث بنص الأمر أو رقم القضية" /></label><button class="primary-button compact-button" type="submit">بحث</button></form></section>
+<section class="panel table-panel"><div class="panel-heading"><div><h2>سجل الأوامر والقرارات</h2><p>مطابقة حقول المصدر MSLSL_COMAND وCOMMAND وDATE_COMMEND وNOTE.</p></div><span class="table-total">@Model.Orders.Count سجل</span></div><div class="table-wrap"><table class="data-table"><thead><tr><th>رقم السجل</th><th>الأمر أو القرار</th><th>التاريخ</th><th>ملاحظات</th><th>القضية</th><th>الحالة التوضيحية</th></tr></thead><tbody>
+@if (Model.Orders.Count == 0)
+{
+    <tr><td colspan="6"><div class="empty-state"><strong>لا توجد سجلات مطابقة</strong><span>جرّب البحث برقم القضية أو كلمة أخرى.</span></div></td></tr>
+}
+else
+{
+    @foreach (var order in Model.Orders)
+    {
+        var caseRecord = LegalDemoData.FindCase(order.CaseId);
+        <tr><td><strong class="table-primary-text">@order.DemoNumber.ToString("D3")</strong><small>رقم تجريبي</small></td><td>@order.Name</td><td>@order.IssuedOn.ToString("dd MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</td><td>@order.Note</td><td><a class="case-number" asp-page="/Legal/Cases/Details" asp-route-id="@order.CaseId">@(caseRecord?.CaseNumber ?? order.CaseId)</a></td><td><span class="case-status status-blue">@order.Status</span></td></tr>
+    }
+}
+</tbody></table></div></section>

@@ -1,0 +1,22 @@
+@page "/Legal/Objections"
+@model ERP.Web.Pages.Legal.ObjectionsModel
+@{
+    ViewData["Title"] = "الاعتراضات";
+}
+<div class="demo-banner"><span class="demo-dot"></span><strong>بيانات تجريبية</strong><span>الشاشة مبنية على كتلة DISCORD في الفورم؛ المسمى الوظيفي يحتاج تأكيدًا من مالك النظام.</span></div>
+<div class="page-heading"><div><p class="eyebrow">الشؤون القانونية / ملفات القضايا</p><h1>الاعتراضات</h1><p>السجلات المرتبطة بكل قضية، مع ملاحظاتها كما تظهر في المصدر القديم.</p>@if (!string.IsNullOrWhiteSpace(Model.CaseId)){<a class="case-number" asp-page="/Legal/Cases/Details" asp-route-id="@Model.CaseId">عرض القضية المرتبطة ←</a>}</div><span class="count-chip">@Model.Objections.Count سجل</span></div>
+<section class="panel filter-panel"><form method="get" class="filter-form">@if (!string.IsNullOrWhiteSpace(Model.CaseId)){<input type="hidden" name="caseId" value="@Model.CaseId" />}<label class="search-field"><span class="search-icon" aria-hidden="true">⌕</span><span class="visually-hidden">بحث</span><input type="search" name="q" value="@Model.Query" placeholder="ابحث بموضوع السجل أو رقم القضية" /></label><button class="primary-button compact-button" type="submit">بحث</button></form></section>
+<section class="panel table-panel"><div class="panel-heading"><div><h2>سجلات الاعتراضات</h2><p>مطابقة حقول المصدر RKM_DISCORD وNAME_DISCORD وNOTE.</p></div><span class="table-total">@Model.Objections.Count سجل</span></div><div class="table-wrap"><table class="data-table"><thead><tr><th>رقم السجل</th><th>موضوع السجل</th><th>الملاحظة</th><th>القضية</th><th>الحالة التوضيحية</th></tr></thead><tbody>
+@if (Model.Objections.Count == 0)
+{
+    <tr><td colspan="5"><div class="empty-state"><strong>لا توجد سجلات مطابقة</strong><span>جرّب البحث برقم القضية أو كلمة أخرى.</span></div></td></tr>
+}
+else
+{
+    @foreach (var objection in Model.Objections)
+    {
+        var caseRecord = LegalDemoData.FindCase(objection.CaseId);
+        <tr><td><strong class="table-primary-text">@objection.DemoNumber.ToString("D3")</strong><small>رقم تجريبي</small></td><td>@objection.Name</td><td>@objection.Note</td><td><a class="case-number" asp-page="/Legal/Cases/Details" asp-route-id="@objection.CaseId">@(caseRecord?.CaseNumber ?? objection.CaseId)</a></td><td><span class="case-status status-violet">@objection.Status</span></td></tr>
+    }
+}
+</tbody></table></div></section>

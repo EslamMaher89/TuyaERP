@@ -73,6 +73,14 @@
     }
             </div>
         </section>
+        <section class="panel detail-panel">
+            <div class="panel-heading"><div><h2>السجلات المرتبطة</h2><p>مسارات مرتبطة من كتل Oracle الفرعية.</p></div></div>
+            <div class="related-record-links">
+                <a asp-page="/Legal/Objections" asp-route-caseId="@Model.Case.Id"><span><strong>الاعتراضات</strong><small>كتلة DISCORD</small></span><b>@Model.ObjectionCount</b><span class="row-arrow" aria-hidden="true">←</span></a>
+                <a asp-page="/Legal/CourtOrders" asp-route-caseId="@Model.Case.Id"><span><strong>الأوامر والقرارات</strong><small>كتلة COMMAND</small></span><b>@Model.CourtOrderCount</b><span class="row-arrow" aria-hidden="true">←</span></a>
+                <a asp-page="/Legal/Execution" asp-route-caseId="@Model.Case.Id"><span><strong>إجراءات التنفيذ</strong><small>كتلة EXECUITION</small></span><b>@Model.ExecutionCount</b><span class="row-arrow" aria-hidden="true">←</span></a>
+            </div>
+        </section>
     </div>
     <aside class="case-side-column">
         <section class="panel side-card">

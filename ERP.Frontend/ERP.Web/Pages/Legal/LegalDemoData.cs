@@ -41,6 +41,29 @@ public static class LegalDemoData
         new("DOC-181", "نسخة الحكم", "LC-2026-0063", "PDF", Today.AddDays(-80), "سلمى عادل", "حكم")
     ];
 
+    // Demonstration rows mirror the related Oracle Forms blocks. Their business labels
+    // and meanings must be confirmed before connecting these screens to Oracle.
+    public static readonly IReadOnlyList<LegalObjectionDemo> Objections =
+    [
+        new(1, "LC-2026-0148", "طلب إعادة نظر في تقرير الخبير", "طلب الطرف الآخر إعادة فحص بنود التوريد.", "قيد المراجعة"),
+        new(2, "LC-2026-0136", "اعتراض على مستحقات نهاية الخدمة", "ملاحظة توضيحية على احتساب مدة الخدمة.", "للمراجعة"),
+        new(3, "LC-2026-0112", "اعتراض على نطاق الحصرية", "مرفق افتراضي لتوضيح سجل الاعتراضات.", "تمت المراجعة")
+    ];
+
+    public static readonly IReadOnlyList<LegalCourtOrderDemo> CourtOrders =
+    [
+        new(1, "LC-2026-0148", "قرار ندب خبير", Today.AddDays(-5), "إيداع تقرير الخبرة قبل الجلسة القادمة.", "قيد المتابعة"),
+        new(2, "LC-2026-0136", "قرار تقديم مستندات", Today.AddDays(-9), "تقديم بيان المستحقات والعقد.", "بانتظار التنفيذ"),
+        new(3, "LC-2026-0112", "قرار حجز الدعوى للحكم", Today.AddDays(-13), "النطق بالحكم في الجلسة المحددة.", "مكتمل")
+    ];
+
+    public static readonly IReadOnlyList<LegalExecutionDemo> Executions =
+    [
+        new("LC-2026-0148", Today.AddDays(-3), "مخاطبة الخبير لتأكيد موعد المعاينة.", "متابعة جارية"),
+        new("LC-2026-0136", Today.AddDays(-7), "تجهيز مستندات المستحقات المطلوبة.", "قيد الإجراء"),
+        new("LC-2026-0063", Today.AddDays(-42), "استكمال إجراء تنفيذ الحكم الافتراضي.", "مكتمل")
+    ];
+
     public static LegalCaseDemo? FindCase(string? id) => Cases.FirstOrDefault(item => item.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
 }
 
@@ -67,3 +90,12 @@ public sealed record LegalLawyerDemo(
 
 public sealed record LegalDocumentDemo(
     string Id, string Name, string CaseId, string FileType, DateOnly AddedOn, string AddedBy, string Category);
+
+public sealed record LegalObjectionDemo(
+    int DemoNumber, string CaseId, string Name, string Note, string Status);
+
+public sealed record LegalCourtOrderDemo(
+    int DemoNumber, string CaseId, string Name, DateOnly IssuedOn, string Note, string Status);
+
+public sealed record LegalExecutionDemo(
+    string CaseId, DateOnly RecordedOn, string Description, string Status);
