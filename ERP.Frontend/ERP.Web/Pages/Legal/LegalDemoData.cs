@@ -25,10 +25,20 @@ public static class LegalDemoData
 
     public static readonly IReadOnlyList<LegalLawyerDemo> Lawyers =
     [
-        new("LW-01", "محمود سالم", "محامي شركات", "القاهرة", 2, 4, "متاح"),
-        new("LW-02", "سلمى عادل", "محامية قضايا عمالية", "القاهرة", 2, 3, "متاح"),
-        new("LW-03", "أحمد ناصر", "محامي تجاري", "الجيزة", 1, 2, "متاح"),
-        new("LW-04", "منى فؤاد", "مستشارة قانونية", "الإسكندرية", 0, 1, "متاح")
+        new(1, "LW-01", "محمود سالم", "محامي شركات", "القاهرة", 2, 4, "متاح"),
+        new(2, "LW-02", "سلمى عادل", "محامية قضايا عمالية", "القاهرة", 2, 3, "متاح"),
+        new(3, "LW-03", "أحمد ناصر", "محامي تجاري", "الجيزة", 1, 2, "متاح"),
+        new(4, "LW-04", "منى فؤاد", "مستشارة قانونية", "الإسكندرية", 0, 1, "متاح")
+    ];
+
+    public static readonly IReadOnlyList<LegalCaseLawyerDemo> CaseLawyerAssignments =
+    [
+        new("LC-2026-0148", 1, 1),
+        new("LC-2026-0148", 2, 4),
+        new("LC-2026-0136", 1, 2),
+        new("LC-2026-0112", 1, 3),
+        new("LC-2026-0097", 1, 1),
+        new("LC-2026-0063", 1, 2)
     ];
 
     public static readonly IReadOnlyList<LegalDocumentDemo> Documents =
@@ -65,6 +75,7 @@ public static class LegalDemoData
     ];
 
     public static LegalCaseDemo? FindCase(string? id) => Cases.FirstOrDefault(item => item.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
+    public static LegalLawyerDemo? FindLawyer(int lawyerNumber) => Lawyers.FirstOrDefault(item => item.LawyerNumber == lawyerNumber);
 }
 
 public sealed record LegalCaseDemo(
@@ -86,7 +97,9 @@ public sealed record LegalSessionDemo(
     string CircleName, string Agenda, string LawyerName, string Status);
 
 public sealed record LegalLawyerDemo(
-    string Id, string Name, string Specialty, string City, int OpenCases, int UpcomingSessions, string Status);
+    int LawyerNumber, string Id, string Name, string Specialty, string City, int OpenCases, int UpcomingSessions, string Status);
+
+public sealed record LegalCaseLawyerDemo(string CaseId, int AssignmentSequence, int LawyerNumber);
 
 public sealed record LegalDocumentDemo(
     string Id, string Name, string CaseId, string FileType, DateOnly AddedOn, string AddedBy, string Category);

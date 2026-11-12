@@ -1,0 +1,23 @@
+@page "/Legal/CaseLawyers"
+@model ERP.Web.Pages.Legal.CaseLawyersModel
+@{
+    ViewData["Title"] = "إسناد المحامين";
+}
+<div class="demo-banner"><span class="demo-dot"></span><strong>بيانات تجريبية</strong><span>مبنية على علاقة LAWER_LAWSUIT؛ أرقام الإسناد والمحامين هنا افتراضية.</span></div>
+<div class="page-heading"><div><p class="eyebrow">الشؤون القانونية / فريق العمل</p><h1>المحامون المسندون للقضايا</h1><p>استعراض ربط المحامين بملفات القضايا وتسلسل الإسناد.</p>@if (!string.IsNullOrWhiteSpace(Model.CaseId)){<a class="case-number" asp-page="/Legal/Cases/Details" asp-route-id="@Model.CaseId">عرض القضية المرتبطة ←</a>}</div><span class="count-chip">@Model.Assignments.Count إسناد</span></div>
+<section class="panel filter-panel"><form method="get" class="filter-form">@if (!string.IsNullOrWhiteSpace(Model.CaseId)){<input type="hidden" name="caseId" value="@Model.CaseId" />}<label class="search-field"><span class="search-icon" aria-hidden="true">⌕</span><span class="visually-hidden">بحث</span><input type="search" name="q" value="@Model.Query" placeholder="ابحث باسم المحامي أو رقم القضية" /></label><button class="primary-button compact-button" type="submit">بحث</button></form></section>
+<section class="panel table-panel"><div class="panel-heading"><div><h2>سجل إسناد المحامين</h2><p>حقول المصدر: LAWER_NO وMSLSL_LAWER مع مفتاح القضية الثلاثي.</p></div><span class="table-total">@Model.Assignments.Count إسناد</span></div><div class="table-wrap"><table class="data-table"><thead><tr><th>القضية</th><th>المحامي</th><th>رقم المحامي (تجريبي)</th><th>تسلسل الإسناد (تجريبي)</th></tr></thead><tbody>
+@if (Model.Assignments.Count == 0)
+{
+    <tr><td colspan="4"><div class="empty-state"><strong>لا توجد إسنادات مطابقة</strong><span>جرّب البحث باسم آخر أو رقم قضية مختلف.</span></div></td></tr>
+}
+else
+{
+    @foreach (var assignment in Model.Assignments)
+    {
+        var legalCase = LegalDemoData.FindCase(assignment.CaseId);
+        var lawyer = LegalDemoData.FindLawyer(assignment.LawyerNumber);
+        <tr><td><a class="case-number" asp-page="/Legal/Cases/Details" asp-route-id="@assignment.CaseId">@(legalCase?.CaseNumber ?? assignment.CaseId)</a><small>@legalCase?.Subject</small></td><td><strong class="table-primary-text">@(lawyer?.Name ?? "محامٍ غير محدد")</strong><small>@lawyer?.Specialty</small></td><td>@assignment.LawyerNumber</td><td>@assignment.AssignmentSequence</td></tr>
+    }
+}
+</tbody></table></div></section>

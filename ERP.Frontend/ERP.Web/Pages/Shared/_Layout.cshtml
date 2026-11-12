@@ -27,6 +27,7 @@
                 <a class="nav-link @(currentPage.StartsWith("/Legal/Cases") ? "active" : "")" asp-page="/Legal/Cases/Index"><span class="nav-icon">§</span><span>القضايا</span><span class="nav-count">5</span></a>
                 <a class="nav-link @(currentPage == "/Legal/Sessions" ? "active" : "")" asp-page="/Legal/Sessions"><span class="nav-icon">▦</span><span>الجلسات</span></a>
                 <a class="nav-link @(currentPage == "/Legal/Lawyers" ? "active" : "")" asp-page="/Legal/Lawyers"><span class="nav-icon">◉</span><span>المحامون</span></a>
+                <a class="nav-link @(currentPage == "/Legal/CaseLawyers" ? "active" : "")" asp-page="/Legal/CaseLawyers"><span class="nav-icon">↔</span><span>إسناد المحامين</span></a>
                 <a class="nav-link @(currentPage == "/Legal/Documents" ? "active" : "")" asp-page="/Legal/Documents"><span class="nav-icon">▤</span><span>المستندات</span></a>
                 <a class="nav-link @(currentPage == "/Legal/Objections" ? "active" : "")" asp-page="/Legal/Objections"><span class="nav-icon">↗</span><span>الاعتراضات</span></a>
                 <a class="nav-link @(currentPage == "/Legal/CourtOrders" ? "active" : "")" asp-page="/Legal/CourtOrders"><span class="nav-icon">▣</span><span>الأوامر والقرارات</span></a>
